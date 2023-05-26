@@ -1,25 +1,63 @@
-import logo from './logo.svg';
+
+import React, { Children } from 'react';
+import ReactDOM from 'react-dom/client';
 import './App.css';
+import NavBar from './Components/Head/Nav';
+import Hero from './Components/Hero/Hero';
+import RestrauntMenu from './Components/RestrauntMenu';
+import {
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import InstaMart from './Components/InstaMart';
+import Shimmer from './Components/Shimmer';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <>
+        <NavBar />
+        <Outlet />
+      </>
     </div>
   );
 }
 
-export default App;
+const appRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    
+
+    children: [
+      {
+        path: '/',
+        element: <Hero />
+      },
+      {
+        path: '/instamart',
+        element: <InstaMart />
+      },
+      {
+        path: '/resmenu/:id',
+        element: <RestrauntMenu/>
+      },
+      {
+        path:'/shimmer',
+        element: <Shimmer/>
+      }
+    ]
+  }
+
+])
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <RouterProvider router={appRouter} />
+  </React.StrictMode>
+);
+
+
